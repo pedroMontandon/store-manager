@@ -9,7 +9,7 @@ const { salesService } = require('../../../src/services');
 const { salesController } = require('../../../src/controllers');
 const { allSales, saleOne } = require('../../mocks/salesMock');
 
-describe('Teste de unidade do controller Salles', function () {
+describe('Teste de unidade do controller Sales', function () {
     afterEach(function () {
         sinon.restore();
     });

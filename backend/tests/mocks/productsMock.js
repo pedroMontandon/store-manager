@@ -13,6 +13,9 @@ const allProducts = [
     },
   ];
 
+const newProduct = [{ id: 4, name: 'Martelo do Chapolin' }];
+
 module.exports = {
     allProducts,
+    newProduct,
 };
