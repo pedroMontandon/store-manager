@@ -43,6 +43,7 @@ describe('Teste de unidade do controller Products', function () {
         expect(res.status).to.have.been.calledWith(200);
         expect(res.json).to.have.been.calledWith(allProducts[0]);
     });
+    
     it('Procurar por um Id inexistente', async function () {
         const req = { params: { id: 171 } };
         const res = {};
