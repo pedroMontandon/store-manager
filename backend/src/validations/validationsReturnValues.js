@@ -2,6 +2,7 @@ const { productsModel } = require('../models');
 const { productNotFound } = require('../utils/errorMap');
 
 const validateProductId = async (id) => {
+  console.log(typeof id);
   const result = await productsModel.findProductById(id);
   if (!result) return productNotFound;
   return null;

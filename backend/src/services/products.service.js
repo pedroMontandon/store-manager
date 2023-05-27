@@ -24,9 +24,16 @@ const updateProduct = async (name, id) => {
     return { type: 200, data: { id: numberId, name } };
 };
 
+const deleteProduct = async (id) => {
+    if (await validateProductId(+id)) return validateProductId(+id);
+    await productsModel.deleteProduct(id);
+    return { type: 204, data: { message: 'Product deleted successfully' } };
+};
+
 module.exports = {
     getAllProducts,
     findProductById,
     createProduct,
     updateProduct,
+    deleteProduct,
 };

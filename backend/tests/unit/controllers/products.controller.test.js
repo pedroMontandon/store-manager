@@ -122,4 +122,17 @@ describe('Products unit controller tests', function () {
     expect(res.status).to.have.been.calledWith(200);
     expect(res.json).to.have.been.calledWith({ updatedProduct });
   });
+
+  it('Deleting a product', async function () {
+    const req = { params: { id: 1 } };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns(res);
+
+    sinon.stub(productsService, 'deleteProduct').resolves({ type: 204, data: {} });
+    await productsController.deleteProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(204);
+  });
 });
