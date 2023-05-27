@@ -8,13 +8,15 @@ chai.use(sinonChai);
 const { salesService } = require('../../../src/services');
 const { salesController } = require('../../../src/controllers');
 const { allSales, saleOne } = require('../../mocks/salesMock');
+const { productNotFound } = require('../../../src/utils/errorMap');
+const { newSale } = require('../../mocks/salesMock');
 
-describe('Teste de unidade do controller Sales', function () {
+describe('Testing sales unit', function () {
     afterEach(function () {
         sinon.restore();
     });
 
-    it('Recuperar todas as vendas', async function () {
+    it('Fetching all sales', async function () {
         const req = {};
         const res = {};
 
@@ -29,7 +31,7 @@ describe('Teste de unidade do controller Sales', function () {
         expect(res.json).to.have.been.calledWith(allSales);
     });
 
-    it('Recuperar uma venda pelo ID', async function () {
+    it('Fetching a specific sale by ID', async function () {
         const req = { params: { id: 1 } };
         const res = {};
 
@@ -44,7 +46,7 @@ describe('Teste de unidade do controller Sales', function () {
         expect(res.json).to.have.been.calledWith(saleOne);
     });
 
-    it('Procurar uma venda com id inexistente', async function () {
+    it('Fetching sale by an incorrect ID', async function () {
         const req = { params: { id: 171 } };
         const res = {};
 
@@ -58,5 +60,50 @@ describe('Teste de unidade do controller Sales', function () {
 
         expect(res.status).to.have.been.calledWith(404);
         expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+
+    it('Creating a sale without productId', async function () {
+        const req = { body: [{ productId: '', quantity: 8 }] };
+        const res = {};
+
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns(res);
+
+        sinon.stub(salesService, 'createSale').resolves(productNotFound);
+
+        await salesController.createSale(req, res);
+
+        expect(res.status).to.have.been.calledWith(404);
+        expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+
+    it('Creating a sale using an incorrect productId', async function () {
+        const req = { body: [{ productId: 171, quantity: 8 }] };
+        const res = {};
+
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns(res);
+
+        sinon.stub(salesService, 'createSale').resolves(productNotFound);
+
+        await salesController.createSale(req, res);
+
+        expect(res.status).to.have.been.calledWith(404);
+        expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+
+    it('Creating a happy sale', async function () {
+        const req = { body: [{ productId: '', quantity: 8 }] };
+        const res = {};
+
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns(res);
+
+        sinon.stub(salesService, 'createSale').resolves({ type: 201, data: newSale });
+
+        await salesController.createSale(req, res);
+
+        expect(res.status).to.have.been.calledWith(201);
+        expect(res.json).to.have.been.calledWith(newSale);
     });
 });

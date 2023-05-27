@@ -1,4 +1,6 @@
 const { salesModel } = require('../models');
+const { saleNotFound } = require('../utils/errorMap');
+const { validateNewSaleId } = require('../validations/validationsReturnValues');
 
 const getAllSales = async () => {
     const result = await salesModel.getAllSales();
@@ -7,17 +9,17 @@ const getAllSales = async () => {
 
 const findSaleById = async (id) => {
     const result = await salesModel.findSaleById(id);
-    if (result.length === 0) return { type: 404, data: { message: 'Sale not found' } };
+    if (result.length === 0) return saleNotFound;
     return { type: 200, data: result };
 };
 
 const createSale = async (sale) => {
+    if (await validateNewSaleId(sale)) return validateNewSaleId(sale);
+
     const { insertId } = await salesModel.createSale();
 
     const salePromise = sale.map((product) => salesModel.createSalesInfo(product, insertId));
-    const saleInfo = Promise.all(salePromise);
-    console.log(saleInfo);
-
+    await Promise.all(salePromise);
     return { type: 201, data: { id: insertId, itemsSold: sale } };
 };
 
