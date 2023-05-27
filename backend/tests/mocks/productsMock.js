@@ -15,7 +15,10 @@ const allProducts = [
 
 const newProduct = [{ id: 4, name: 'Martelo do Chapolin' }];
 
+const updatedProduct = [{ id: 1, name: 'Chapolins Hammer' }];
+
 module.exports = {
     allProducts,
     newProduct,
+    updatedProduct,
 };

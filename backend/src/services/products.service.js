@@ -17,8 +17,16 @@ const createProduct = async (name) => {
     return { type: 201, data: { id: insertId, name } };
 };
 
+const updateProduct = async (name, id) => {
+    if (await validateProductId(id)) return validateProductId(id);
+    await productsModel.updateProduct({ name, id });
+    const numberId = +id;
+    return { type: 200, data: { id: numberId, name } };
+};
+
 module.exports = {
     getAllProducts,
     findProductById,
     createProduct,
+    updateProduct,
 };

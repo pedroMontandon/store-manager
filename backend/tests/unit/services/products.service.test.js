@@ -27,4 +27,11 @@ describe('Product unit tests', function () {
         const { data } = await productsService.createProduct('Martelo do Chapolin');
         expect(data.name).to.be.deep.equal(newProduct[0].name);
     });
+
+    it('Updating a product', async function () {
+        sinon.stub(productsModel, 'updateProduct').resolves(newProduct);
+        sinon.stub(productsModel, 'findProductById').resolves({ productId: 1 });
+        const { data: { name } } = await productsService.updateProduct(newProduct.name);
+        expect(name).to.be.equal(newProduct.name);
+    });
 });

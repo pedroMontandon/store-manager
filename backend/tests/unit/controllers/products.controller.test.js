@@ -7,13 +7,13 @@ chai.use(sinonChai);
 
 const productsService = require('../../../src/services/products.service');
 const productsController = require('../../../src/controllers/products.controller');
-const { allProducts, newProduct } = require('../../mocks/productsMock');
+const { allProducts, newProduct, updatedProduct } = require('../../mocks/productsMock');
 
-describe('Teste de unidade do controller Products', function () {
+describe('Products unit controller tests', function () {
   afterEach(function () {
       sinon.restore();
   });
-  it('Recuperar todos os produtos', async function () {
+  it('Fetching all products', async function () {
       const req = {};
       const res = {};
 
@@ -28,7 +28,7 @@ describe('Teste de unidade do controller Products', function () {
       expect(res.json).to.have.been.calledWith(allProducts);
   });
 
-  it('Recuperar um produto pelo ID', async function () {
+  it('Fetching a specific product by ID', async function () {
       const req = { params: { id: 1 } };
       const res = {};
 
@@ -44,7 +44,7 @@ describe('Teste de unidade do controller Products', function () {
       expect(res.json).to.have.been.calledWith(allProducts[0]);
   });
   
-  it('Procurar por um Id inexistente', async function () {
+  it('Trying to fetch with an incorrect id', async function () {
       const req = { params: { id: 171 } };
       const res = {};
 
@@ -60,7 +60,7 @@ describe('Teste de unidade do controller Products', function () {
       expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
   });
 
-  it('Criando um novo produto', async function () {
+  it('Creating a new product', async function () {
       const req = { body: { name: 'Martelo do Chapolin' } };
       const res = {};
 
@@ -75,7 +75,7 @@ describe('Teste de unidade do controller Products', function () {
       expect(res.json).to.have.been.calledWith(newProduct);
   });
 
-  it('Criando um produto sem nome', async function () {
+  it('Creating a product without a name', async function () {
       const req = { body: { name: '' } };
       const res = {};
 
@@ -91,7 +91,7 @@ describe('Teste de unidade do controller Products', function () {
       expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
   });
 
-  it('Criando um produto com tamanho do name menor que 5', async function () {
+  it('Creating a product with less than 5 characters', async function () {
     const req = { body: { name: 'Bob' } };
     const res = {};
 
@@ -107,4 +107,19 @@ describe('Teste de unidade do controller Products', function () {
     expect(res.json).to.have.been
     .calledWith({ message: '"name" length must be at least 5 characters long' });
 });
+
+  it('Updating a product', async function () {
+    const req = { body: { name: 'Chapolins Hammer' }, params: { id: 1 } };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns(res);
+
+    sinon.stub(productsService, 'updateProduct').resolves({ type: 200, data: { updatedProduct } });
+
+    await productsController.updateProduct(req, res);
+    
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith({ updatedProduct });
+  });
 });
