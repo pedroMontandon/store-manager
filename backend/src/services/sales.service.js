@@ -11,7 +11,18 @@ const findSaleById = async (id) => {
     return { type: 200, data: result };
 };
 
+const createSale = async (sale) => {
+    const { insertId } = await salesModel.createSale();
+
+    const salePromise = sale.map((product) => salesModel.createSalesInfo(product, insertId));
+    const saleInfo = Promise.all(salePromise);
+    console.log(saleInfo);
+
+    return { type: 201, data: { id: insertId, itemsSold: sale } };
+};
+
 module.exports = {
     getAllSales,
     findSaleById,
+    createSale,
 };
