@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const { salesService } = require('../../../src/services');
 const { salesController } = require('../../../src/controllers');
-const { allSales, saleOne } = require('../../mocks/salesMock');
+const { allSales, saleOne, updatedSale } = require('../../mocks/salesMock');
 const { productNotFound } = require('../../../src/utils/errorMap');
 const { newSale } = require('../../mocks/salesMock');
 
@@ -133,5 +133,18 @@ describe('Testing sales unit', function () {
 
         expect(res.status).to.have.been.calledWith(404);
         expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+    
+    it('Updating a sale', async function () {
+        const req = { params: { saleId: 1, productId: 1 }, body: { quantity: 10 } };
+        const res = {};
+
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns(res);
+        sinon.stub(salesService, 'updateSale').resolves({ type: 200, data: updatedSale });
+        await salesController.updateSale(req, res);
+
+        expect(res.status).to.have.been.calledWith(200);
+        expect(res.json).to.have.been.calledWith(updatedSale);
     });
 });

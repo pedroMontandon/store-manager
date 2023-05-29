@@ -1,7 +1,8 @@
 const { salesModel } = require('../models');
 const { saleNotFound } = require('../utils/errorMap');
 const { validateNewSaleId, 
-    checkingSaleIdExistence } = require('../validations/validationsReturnValues');
+    checkingSaleIdExistence, 
+    validateProductId } = require('../validations/validationsReturnValues');
 
 const getAllSales = async () => {
     const result = await salesModel.getAllSales();
@@ -30,9 +31,22 @@ const deleteSale = async (id) => {
     return { type: 204, data: {} };
 };
 
+const updateSale = async (saleId, productId, quantity) => {
+    if (await checkingSaleIdExistence(saleId)) return checkingSaleIdExistence(saleId);
+    if (await validateProductId(productId)) {
+        return { type: 404, data: { message: 'Product not found in sale' } };
+    }
+    await salesModel.updateSale(saleId, productId, quantity);
+    const [result] = await salesModel.findSaleById(saleId);
+    const numb = [+saleId, +productId, +quantity];
+    const data = { ...result, saleId: numb[0], productId: numb[1], quantity: numb[2] };
+    return { type: 200, data };
+};
+
 module.exports = {
     getAllSales,
     findSaleById,
     createSale,
     deleteSale,
+    updateSale,
 };

@@ -12,6 +12,18 @@ const validateNewSale = (req, res, next) => {
     return next();
 };
 
+const validateSaleUpdate = (req, res, next) => {
+    const { quantity } = req.body;
+    if (validateQuantityReq([{ quantity }])) {
+        return res.status(400).json(validateQuantityReq([{ quantity }]));
+    }
+    if (validateQuantityMin([{ quantity }])) {
+        return res.status(422).json(validateQuantityMin([{ quantity }]));
+    }
+    return next();
+};
+
 module.exports = {
     validateNewSale,
+    validateSaleUpdate,
 };
