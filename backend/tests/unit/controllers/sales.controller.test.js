@@ -106,4 +106,32 @@ describe('Testing sales unit', function () {
         expect(res.status).to.have.been.calledWith(201);
         expect(res.json).to.have.been.calledWith(newSale);
     });
+
+    it('Deleting a sale happily', async function () {
+        const req = { params: { id: 1 } };
+        const res = {};
+
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns(res);
+        sinon.stub(salesService, 'deleteSale').resolves({ type: 204, data: newSale });
+
+        await salesController.deleteSale(req, res);
+
+        expect(res.status).to.have.been.calledWith(204);
+    });
+
+    it('Trying to delete a sale without an id', async function () {
+        const req = { params: { id: 171 } };
+        const res = {};
+
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns(res);
+        sinon.stub(salesService, 'deleteSale')
+        .resolves({ type: 404, data: { message: 'Sale not found' } });
+
+        await salesController.deleteSale(req, res);
+
+        expect(res.status).to.have.been.calledWith(404);
+        expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
 });
