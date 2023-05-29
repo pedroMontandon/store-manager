@@ -1,5 +1,3 @@
-Great job on creating your store manager app! Here's an improved version of your text:
-
 In this project, I developed a simple store manager app that allows users to perform CRUD operations on a database. The app was built using Node.js for the backend code, Express.js to interact with the database, and MySQL for database management.
 
 To ensure the reliability and functionality of the app, comprehensive tests were implemented, covering approximately 70% of the codebase.
