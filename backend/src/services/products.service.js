@@ -30,10 +30,16 @@ const deleteProduct = async (id) => {
     return { type: 204, data: { message: 'Product deleted successfully' } };
 };
 
+const searchProduct = async (name) => {
+    const result = await productsModel.searchProduct(name);
+    return { type: 200, data: result };
+};
+
 module.exports = {
     getAllProducts,
     findProductById,
     createProduct,
     updateProduct,
     deleteProduct,
+    searchProduct,
 };
