@@ -1,11 +1,49 @@
-In this project, I developed a simple store manager app that allows users to perform CRUD operations on a database. The app was built using Node.js for the backend code, Express.js to interact with the database, and MySQL for database management.
+<h1>Store Manager App</h1>
+This project is a simple store manager app that enables users to perform CRUD (Create, Read, Update, Delete) operations on a database. The application is built using Node.js for the backend code, Express.js for interacting with the database, and MySQL for efficient database management.
+<br></br>
+To ensure the reliability and functionality of the app, a comprehensive suite of tests has been implemented, covering approximately 70% of the codebase.
 
-To ensure the reliability and functionality of the app, comprehensive tests were implemented, covering approximately 70% of the codebase.
+<h2>Features</h2>
+<ul>
+  <li>CRUD operations on the database</li>
+  <li>Node.js backend</li>
+  <li>Express.js for database interaction</li>
+  <li>MySQL for efficient database management</li>
+  <li>MSC (Model-Service-Controller) architecture for improved organization and security</li>
+</ul>
 
-For better organization and security, I adopted the MSC (Model-Service-Controller) architecture, which separates different components of the app and helps protect against potential attacks.
+<h2>Usage</h2>
+To run the app, follow the steps below:
 
-To run the app, simply enter "npm start" in your terminal. For interacting with the database, I recommend using Thunderclient. To run the tests, use the command "npm run test:mocha".
+<ol>
+  <li>Clone this repository to your local machine.</li>
+  <li>Open your terminal or command prompt and navigate to the project directory.</li>
+  <li>Install the required dependencies by running the following command:</li>
+  
+```
+npm install
+```
 
-I'm open to any suggestions and tips to further improve the app.
+  <li> Start the application by running the following command:</li>
 
+```sql
+npm start
+```
+  
+  <li>To interact with the database, it is recommended to use Thunderclient or any other API testing tool.</li>
+  <li>To run the tests, use the following command:</li>
+
+```arduino
+npm run test:mocha
+```
+  
+</ol>
+
+<h2>Feedback</h2>
+I welcome any suggestions and tips to further improve the app. Feel free to reach out and share your thoughts.
+<br></br>
+Thank you for your interest!
+<br></br>
 Let me know if there's anything else I can assist you with!
+  
+
